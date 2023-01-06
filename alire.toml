@@ -1,0 +1,13 @@
+name = "led_blink"
+description = "Shiny new project"
+version = "0.1.0-dev"
+
+authors = ["Fernando Oleo Blanco"]
+maintainers = ["Fernando Oleo Blanco <irvise@irvise.xyz>"]
+maintainers-logins = ["Irvise"]
+
+executables = ["led_blink"]
+[[depends-on]]
+neorv32_litex_hal = "~0.1.0-dev"
+[[pins]]
+neorv32_litex_hal = { path='../neorv32_litex_hal' }

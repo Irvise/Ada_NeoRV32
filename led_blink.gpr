@@ -1,0 +1,67 @@
+with "config/led_blink_config.gpr";
+project Led_Blink is
+
+   for Languages use ("Ada", "ASM_CPP");
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Led_Blink_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("led_blink.adb");
+
+   package Device_Configuration is
+     for CPU_Name use "riscv32";
+     for Float_Handling use "soft";
+
+     for Number_Of_Interrupts use "1";
+
+     --  for Memories use ("MAIN_RAM", "SRAM", "CSR", "ROM");
+
+     for Memories use ("MAIN_RAM", "CSR", "ROM");
+     --  Specify from which memory bank the program will load
+     for Boot_Memory use "ROM";
+     --  Main stack memory
+     for Main_Stack_Memory use "MAIN_RAM";
+
+     --  Specification of the RAM
+     for Mem_Kind ("MAIN_RAM") use "ram";
+     for Address ("MAIN_RAM") use "0x40000000";
+     for Size ("MAIN_RAM") use "0x02000000";
+
+     --  Specification of the SRAM
+     --  for Mem_Kind ("SRAM") use "ram";
+     --  for Address ("SRAM") use "0x01000000";
+     --  for Size ("SRAM") use "0x00002000";
+
+     --  Specification of the CSR 
+     for Mem_Kind ("CSR") use "ram";
+     for Address ("CSR") use "0x82000000";
+     for Size ("CSR") use "0x00001000";
+
+     --  Specification of the ROM 
+     for Mem_Kind ("ROM") use "rom";
+     for Address ("ROM") use "0x00000000";
+     for Size ("ROM") use "0x00020000";
+   end Device_Configuration;
+
+   for Target use "riscv64-elf";
+   for Runtime ("Ada") use "light-rv32imac";
+   
+   package Compiler is
+      for Default_Switches ("Ada") use Led_Blink_Config.Ada_Compiler_Switches;
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Linker is
+     for Switches ("Ada") use ("-T", Project'Project_dir & "/src/link.ld",
+                               "-Wl,--print-memory-usage",
+                               "-Wl,--gc-sections");
+   end Linker;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+end Led_Blink;

@@ -1,0 +1,8 @@
+# Alire
+/obj/
+/bin/
+/alire/
+/config/
+
+# Emacs
+*~
