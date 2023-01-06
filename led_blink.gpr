@@ -47,7 +47,9 @@ project Led_Blink is
    for Runtime ("Ada") use "light-rv32imac";
    
    package Compiler is
-      for Default_Switches ("Ada") use Led_Blink_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada") use
+        Led_Blink_Config.Ada_Compiler_Switches &
+        ("-gnat2022");
    end Compiler;
 
    package Binder is
