@@ -7,6 +7,11 @@ maintainers = ["Fernando Oleo Blanco <irvise@irvise.xyz>"]
 maintainers-logins = ["Irvise"]
 
 executables = ["led_blink"]
+
+[[actions]]
+type = "post-build"
+command = ["riscv64-elf-objcopy", "-O", "ihex", "bin/led_blink", "bin/led_blink.hex"]
+
 [[depends-on]]
 neorv32_litex_hal = "~0.1.0-dev"
 [[pins]]
