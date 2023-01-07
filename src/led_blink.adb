@@ -2,7 +2,7 @@ with NeoRV32; use NeoRV32;
 with Led_Exit;
 
 procedure Led_Blink is
-   Max_Tick : constant := 10_000;
+   Max_Tick : constant := 50_000;
    type Time_Counter is range 0 .. Max_Tick;
    Value : Mod_Byte := 0;
 
